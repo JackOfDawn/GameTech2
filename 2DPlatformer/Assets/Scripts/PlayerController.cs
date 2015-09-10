@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    const float ANGLE = .52f;
+    public float dist =.2f;
+    public Projectile projectile;
     public enum DashType
     {
         StandardDash = 1,
@@ -12,6 +15,9 @@ public class PlayerController : MonoBehaviour {
 
     public float maxSpeed = 10f;
     public float jumpForce = 700;
+
+
+    
     bool facingRight = true;
     public Rigidbody2D rigid2D;
 
@@ -29,6 +35,9 @@ public class PlayerController : MonoBehaviour {
     bool _oldDashPressed = false;
     bool _isDashing = false;
     Vector2 _dashDirection;
+
+    //Cannon
+    Vector3 CannonAngle;
 
     //Falling shizzles
     bool grounded = false;
@@ -86,13 +95,43 @@ public class PlayerController : MonoBehaviour {
         move = Input.GetAxis("Horizontal");
         aim = Input.GetAxis("Vertical");
         bodyAnim.SetFloat("vAim", aim);
+
+
+        //Get aiming Vector
+        CannonAngle = new Vector3(1,0,0);
+        if(aim > .1f)
+        {
+            CannonAngle.x = Mathf.Cos(ANGLE);
+            CannonAngle.y = Mathf.Sin(ANGLE); 
+        }
+        else if(aim < -.1f)
+        {
+            CannonAngle.x = Mathf.Cos(ANGLE);
+            CannonAngle.y = -Mathf.Sin(ANGLE);
+        }
+
+        if (!facingRight) CannonAngle.x *= -1;
+        bodyAnim.transform.localEulerAngles = CannonAngle;
+        //Debug.Log(bodyAnim.transform.localEulerAngles);
+        //Debug.DrawRay(bodyAnim.transform.position, angle);
+
+
         _dashDirection.x = move;
         _dashDirection.y = aim;
+
+        
 
         //Firing
         if (Input.GetKeyDown(KeyCode.X))
         {
             bodyAnim.SetTrigger("Fire");
+
+           
+
+            Vector2 pos = bodyAnim.transform.position + (CannonAngle.normalized * dist);
+            Debug.DrawLine(bodyAnim.transform.position, pos, Color.green, 2f);
+            projectile.fire(pos, CannonAngle);
+
         }
 
         //Dashing

@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6062550824413b3448d7b432b0ddda33
-timeCreated: 1425761822
-licenseType: Free
+timeCreated: 1441834494
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: Cannon_0
@@ -71,7 +71,7 @@ TextureImporter:
         height: 37
       alignment: 9
       pivot: {x: .336609036, y: .357537031}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 2, w: 0}
     - name: Cannon_2
       rect:
         serializedVersion: 2
