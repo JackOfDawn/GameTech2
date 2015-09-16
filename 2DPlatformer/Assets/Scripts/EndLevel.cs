@@ -4,8 +4,9 @@ using System.Collections;
 public class EndLevel : MonoBehaviour {
 
 	// Use this for initialization
+    public string NextLevel;
 
-    public Transform spawnPoint;
+    //public Transform spawnPoint;
 	void Start () {
 	
 	}
@@ -17,6 +18,12 @@ public class EndLevel : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        collider.transform.position = spawnPoint.position;
+        if (collider.CompareTag("Player"))
+            Application.LoadLevel(NextLevel);
+    }
+
+    public void End()
+    {
+        Application.LoadLevel(NextLevel);
     }
 }
