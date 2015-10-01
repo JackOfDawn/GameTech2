@@ -5,12 +5,23 @@ public class PlayerController : MonoBehaviour {
 
     const float ANGLE = .52f;
     public float dist =.2f;
-    public Projectile projectile;
+
+    public GameObject antiGrav;
+    public GameObject zeroGrav;
+    public GameObject normalGrav;
+    public Projectile.TYPE projType;
+
+
     public enum DashType
     {
         StandardDash = 1,
         QJetDash = 2,
         MixDash
+    }
+
+    public void setType(int type)
+    {
+        projType = (Projectile.TYPE)type;
     }
 
     public float maxSpeed = 10f;
@@ -56,6 +67,9 @@ public class PlayerController : MonoBehaviour {
         if (rigid2D == null)
             rigid2D = gameObject.GetComponent<Rigidbody2D>();
         gravityScale = rigid2D.gravityScale;
+
+        DontDestroyOnLoad(this.gameObject);
+        
 
 	}
 	
@@ -130,6 +144,21 @@ public class PlayerController : MonoBehaviour {
 
             Vector2 pos = bodyAnim.transform.position + (CannonAngle.normalized * dist);
             Debug.DrawLine(bodyAnim.transform.position, pos, Color.green, 2f);
+
+            // Change depending on what is pressed;
+            Projectile projectile;
+            switch(projType)
+            {
+                case Projectile.TYPE.Anti:
+                    projectile = (Instantiate(antiGrav, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Projectile>();
+                    break;
+                case Projectile.TYPE.Normal:
+                    projectile = (Instantiate(normalGrav, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Projectile>();
+                    break;
+                default: 
+                    projectile = (Instantiate(zeroGrav, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Projectile>();
+                    break;
+            }
             projectile.fire(pos, CannonAngle);
 
         }
@@ -196,5 +225,10 @@ public class PlayerController : MonoBehaviour {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void Test()
+    {
+        rigid2D.velocity *= 10;
     }
 }

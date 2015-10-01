@@ -26,4 +26,11 @@ public class EndLevel : MonoBehaviour {
     {
         Application.LoadLevel(NextLevel);
     }
+
+    public void ResetGame()
+    {
+        Destroy(GameObject.Find("Player"));
+        Destroy(GameObject.Find("HUD"));
+        End();
+    }
 }
