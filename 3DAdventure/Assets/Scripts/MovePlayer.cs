@@ -3,6 +3,9 @@ using System.Collections;
 
 public class MovePlayer : MonoBehaviour {
 
+    public bool inputEnabled = true;
+    
+
     Rigidbody rb;
     float speed;
     float yRot;
@@ -39,26 +42,32 @@ public class MovePlayer : MonoBehaviour {
     private void checkInput()
     {
         speed = .5f * 100;
-        if(Input.GetKey(KeyCode.Space))
+        if (inputEnabled)
         {
-            speed = 100f;
-            audio.pitch = 2f;
-            xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
-            zRot = -Input.GetAxis("Horizontal") * 500 * Time.deltaTime;
-        }
-        else if(Input.GetKey(KeyCode.LeftShift))
-        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                speed = 100f;
+                audio.pitch = 2f;
+                //xRot = Input.GetAxis("Vertical") * 200 * Time.deltaTime;
+                //zRot = -Input.GetAxis("Horizontal") * 200 * Time.deltaTime;
+                xRot = Input.GetAxis("MouseY") * Time.deltaTime * 200;
+                zRot = -Input.GetAxis("MouseX") * Time.deltaTime * 200;
+            }
+            else if (Input.GetKey(KeyCode.LeftShift))
+            {
 
-        }
-        else
-        {
-            audio.pitch = 1f;
-            xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
-            zRot = -Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
+            }
+            else
+            {
+                audio.pitch = 1f;
+                //xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
+                //zRot = -Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
+                xRot = Input.GetAxis("MouseY") * Time.deltaTime * 100;
+                zRot = -Input.GetAxis("MouseX") * Time.deltaTime * 100;
+            }
         }
 
-        //xRot = Input.GetAxis("MouseY") * Time.deltaTime * 100;
-        //zRot = -Input.GetAxis("MouseX") * Time.deltaTime * 100;
+
         
         
         Debug.Log(speed);
