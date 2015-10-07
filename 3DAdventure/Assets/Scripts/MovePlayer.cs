@@ -8,9 +8,11 @@ public class MovePlayer : MonoBehaviour {
     float yRot;
     float xRot;
     float zRot;
+    AudioSource audio;
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody>();	
+        rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -37,11 +39,31 @@ public class MovePlayer : MonoBehaviour {
     private void checkInput()
     {
         speed = .5f * 100;
-        xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
-        zRot = -Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
+        if(Input.GetKey(KeyCode.Space))
+        {
+            speed = 100f;
+            audio.pitch = 2f;
+            xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
+            zRot = -Input.GetAxis("Horizontal") * 500 * Time.deltaTime;
+        }
+        else if(Input.GetKey(KeyCode.LeftShift))
+        {
+
+        }
+        else
+        {
+            audio.pitch = 1f;
+            xRot = Input.GetAxis("Vertical") * 100 * Time.deltaTime;
+            zRot = -Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
+        }
+
+        //xRot = Input.GetAxis("MouseY") * Time.deltaTime * 100;
+        //zRot = -Input.GetAxis("MouseX") * Time.deltaTime * 100;
         
         
         Debug.Log(speed);
 
     }
+
+    
 }
