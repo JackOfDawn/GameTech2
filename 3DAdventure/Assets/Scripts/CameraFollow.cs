@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Camera : MonoBehaviour {
+public class CameraFollow : MonoBehaviour {
 
 	// Use this for initialization
     public Transform target;

@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour {
     {
         Loading,
         Running,
-        Ending
+        Ending,
+        Delay
     }
+    public float endOfLevelDelay = 3;
     public GameState currentState;
     private static GameManager _instance;
     public static GameManager Instance
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour {
    
     void Awake()
     {
-        if (_instance && _instance != this)
+        if (GameManager.Instance != this)
             Destroy(this.gameObject);
     }
 
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour {
                 RunLevel();
                 break;
             case GameState.Ending:
-                End();
+                StartCoroutine(End());
                 break;
         }
     }
@@ -85,6 +87,7 @@ public class GameManager : MonoBehaviour {
            if(!collectables[i])
            {
                collectables.RemoveAt(i);
+               Debug.Log("Collectables Remaining: " + collectables.Count);
            }
         }
 
@@ -96,8 +99,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void End()
+    IEnumerator End()
     {
+        currentState = GameState.Delay;
+        yield return new WaitForSeconds(endOfLevelDelay);
         currentLevel++;
         if(currentLevel >= levels.Count)
         {
@@ -106,6 +111,7 @@ public class GameManager : MonoBehaviour {
             levelStart = false;
             currentLevel = 0;
             Debug.Log("Game is Done");
+            Destroy(this.gameObject);
         }
         else
         {
@@ -114,6 +120,7 @@ public class GameManager : MonoBehaviour {
             StartCoroutine(prepLevel());
         }
     }
+
 
 
 
