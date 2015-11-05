@@ -4,10 +4,11 @@ using UnityEngine.Events;
 
 public class Collectable : MonoBehaviour {
 
-    public bool collected = false; 
+    public bool collected = false;
+    AudioSource src;
 	// Use this for initialization
 	void Start () {
-	
+        src = GetComponent<AudioSource>();	
 	}
 	
 	// Update is called once per frame
@@ -20,7 +21,14 @@ public class Collectable : MonoBehaviour {
     {
         if(collider.CompareTag("Player"))
         {
-            Destroy(this.gameObject);
+            StartCoroutine(waitForDestruction());
         }
+    }
+
+    IEnumerator waitForDestruction()
+    {
+        src.Play();
+        yield return new WaitForSeconds(1);
+        Destroy(this.gameObject);
     }
 }
