@@ -19,7 +19,7 @@ public class TowerCollisionCheck : MonoBehaviour {
         }
         if (collider.CompareTag("BombExplosion"))
         {
-            health.TakeDamage(2);
+            health.TakeDamage(10);
             Debug.Log("BOMBHIT");
         }
     }

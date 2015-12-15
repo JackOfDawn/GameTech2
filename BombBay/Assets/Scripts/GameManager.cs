@@ -89,6 +89,12 @@ public class GameManager : MonoBehaviour {
 
     void RunLevel()
     {
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            planeWins = true;
+            currentState = GameState.Ending;
+        }
         //check Plane Health
         if(!planeHealth.IsAlive())
         {
@@ -113,6 +119,7 @@ public class GameManager : MonoBehaviour {
         if(planeWins)
         {
             activeCam = PlaneCam;
+            islandCam.gameObject.SetActive(false);
             winnerText.text = "Player One Wins";
         }
         else 

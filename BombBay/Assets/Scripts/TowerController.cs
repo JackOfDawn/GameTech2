@@ -19,7 +19,15 @@ public class TowerController : MonoBehaviour {
         SetActiveTurret(1);
 
 	}
-	
+
+    public void ReloadTurrets()
+    {
+        turrets = GameObject.FindObjectsOfType<Tower>();
+        for (int i = 0; i < turrets.Length; i++)
+        {
+            turretHealth[i] = turrets[i].health;
+        }
+    }
 	// Update is called once per frame
 	void Update () 
     {

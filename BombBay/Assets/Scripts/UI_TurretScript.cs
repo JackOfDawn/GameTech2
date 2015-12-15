@@ -26,8 +26,12 @@ public class UI_TurretScript : MonoBehaviour {
         }
         for (int i = 0; i < turretHealthUI.Length; i++)
         {
-            if(towerController)
+            if (towerController)
+            {
+                if (towerController.turretHealth[i] == null)
+                    towerController.ReloadTurrets();
                 turretHealthUI[i].fillAmount = towerController.turretHealth[i].currentHealth / towerController.turretHealth[i].MAX_HEALTH;
+            }
         }	
 	}
 }
