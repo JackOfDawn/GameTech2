@@ -17,9 +17,12 @@ public class Tower : MonoBehaviour {
 
     bool firedLeft = false;
 
+    Health health;
+
     public bool activeTurret { get; private set; }
 	void Start () 
     {
+        health = GetComponent<Health>();
         if (!plane)
             plane = GameObject.Find("PlayerOne").transform;
         activeTurret = false;
@@ -40,19 +43,27 @@ public class Tower : MonoBehaviour {
     {
         if(!activeTurret)
             transform.LookAt(plane);
+
+        //health.TakeDamage(100);
+        if (!health.IsAlive())
+        {
+            Debug.Log("TURRET_DOWN!");
+            transform.parent.GetChild(1).gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
-    public void Fire(bool left)
+    public void Fire()
     {
         if (firedLeft)
         {
             LeftGun.SetTrigger("FIRE");
-            leftShell = ((GameObject)Instantiate(GameManager.Instance.GetShellPrefab(), LeftGun.transform.position, Quaternion.identity)).GetComponent<ShellScript>();
+            leftShell = ((GameObject)Instantiate(GameManager.Instance.GetShellPrefab(), LeftGun.transform.position + transform.forward * 2, Quaternion.identity)).GetComponent<ShellScript>();
             leftShell.setForward(transform.forward);
         }
         else
         {
             RightGun.SetTrigger("FIRE");
-            rightShell = ((GameObject)Instantiate(GameManager.Instance.GetShellPrefab(), RightGun.transform.position, Quaternion.identity)).GetComponent<ShellScript>();
+            rightShell = ((GameObject)Instantiate(GameManager.Instance.GetShellPrefab(), RightGun.transform.position + transform.forward * 2, Quaternion.identity)).GetComponent<ShellScript>();
             rightShell.setForward(transform.forward);
         }
         firedLeft = !firedLeft;
