@@ -24,8 +24,6 @@ public class MovePlayer : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody>();
         //audio = GetComponent<AudioSource>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
