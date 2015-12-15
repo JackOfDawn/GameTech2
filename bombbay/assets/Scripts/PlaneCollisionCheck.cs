@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TowerCollisionCheck : MonoBehaviour {
+public class PlaneCollisionCheck : MonoBehaviour {
 
-	// Use this for initialization
     Health health;
 	void Start ()
     {
-        health = GetComponentInChildren<Health>();	
+        health = GetComponent<Health>();	
 	}
+
+    void Update()
+    {
+        if (!health.IsAlive())
+            transform.parent.gameObject.SetActive(false);
+    }
 
 	void OnTriggerEnter(Collider collider)
     {
@@ -19,7 +24,7 @@ public class TowerCollisionCheck : MonoBehaviour {
         }
         if (collider.CompareTag("BombExplosion"))
         {
-            health.TakeDamage(2);
+            health.TakeDamage(1);
             Debug.Log("BOMBHIT");
         }
     }

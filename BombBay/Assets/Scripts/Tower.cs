@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour {
 
     bool firedLeft = false;
 
-    Health health;
+   public Health health;
 
     public bool activeTurret { get; private set; }
 	void Start () 

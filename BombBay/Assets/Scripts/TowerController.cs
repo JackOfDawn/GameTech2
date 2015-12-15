@@ -6,13 +6,17 @@ public class TowerController : MonoBehaviour {
     Tower[] turrets;
     public Health[] turretHealth;
     Tower activeTurret;
+    public int activeNum;
 
 	// Use this for initialization
 	void Start () {
         turrets = GameObject.FindObjectsOfType<Tower>();
-        turretHealth = GetComponentsInChildren<Health>();
-        activeTurret = turrets[1];
-        activeTurret.ActivateTurret();
+        turretHealth = new Health[5];
+        for (int i = 0; i < turrets.Length; i++)
+        {
+            turretHealth[i] = turrets[i].health;
+        }
+        SetActiveTurret(1);
 
 	}
 	
@@ -44,9 +48,11 @@ public class TowerController : MonoBehaviour {
 
     void SetActiveTurret(int num)
     {
-        activeTurret.DeactivateTurret();
+        if(activeTurret)
+            activeTurret.DeactivateTurret();
         activeTurret = turrets[num - 1];
         activeTurret.ActivateTurret();
+        activeNum = num - 1;
 
     }
 }
