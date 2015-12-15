@@ -6,6 +6,8 @@ public class BombScript : MonoBehaviour {
     Rigidbody rb;
     bool collided = false;
     Animator explosionAnim;
+    Explosion explosionCheck;
+    Transform shell;
 	// Use this for initialization
 	void Start () 
     {
@@ -14,12 +16,18 @@ public class BombScript : MonoBehaviour {
         rb.velocity = Vector3.zero;
 
         explosionAnim = GetComponentInChildren<Animator>();
+        explosionCheck = GetComponentInChildren<Explosion>();
+        shell = transform.GetChild(0);
+
 	}
 
     void Update()
     {
         if(!rb.isKinematic)
             transform.LookAt( transform.position + rb.velocity);
+        if (explosionCheck.explosionOver)
+            Destroy(this.gameObject);
+
     }
 
     public void Release(Vector3 velocity)
@@ -33,6 +41,7 @@ public class BombScript : MonoBehaviour {
     {
         if(!collided)
         {
+            shell.gameObject.SetActive(false);
             explosionAnim.SetTrigger("EXPLODE");
             rb.isKinematic = true;
         }
